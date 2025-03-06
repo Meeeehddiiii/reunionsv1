@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Liste des Programmes{% endblock %}
+
+{% block content %}
+<div class="programme-container">
+    <h1>Liste des Programmes</h1>
+    {% if programmes %}
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Date</th>
+            <th>Parking</th>
+            <th>Entrée</th>
+            <th>Auditorium</th>
+            <th>Estrade</th>
+            <th>Zoom</th>
+            <th>Sono</th>
+            <th>Perchiste1</th>
+            <th>Perchiste2</th>
+            <th>Perchiste3</th>
+            <th>Perchiste4</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for programme in programmes %}
+          <tr>
+            <td>{{ programme.id }}</td>
+            <td>{{ programme.datePlanning }}</td>
+            <td>{{ programme.parking }}</td>
+            <td>{{ programme.entree }}</td>
+            <td>{{ programme.auditorium }}</td>
+            <td>{{ programme.estrade }}</td>
+            <td>{{ programme.zoom }}</td>
+            <td>{{ programme.sono }}</td>
+            <td>{{ programme.perchiste1 }}</td>
+            <td>{{ programme.perchiste2 }}</td>
+            <td>{{ programme.perchiste3 }}</td>
+            <td>{{ programme.perchiste4 }}</td>
+            <td>
+              <a href="{{ url_for('programme.edit_programme', id=programme.id) }}">Modifier</a>
+              <form action="{{ url_for('programme.delete_programme', id=programme.id) }}" method="post" style="display:inline;">
+                <button type="submit">Supprimer</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>Aucun programme trouvé.</p>
+    {% endif %}
+    <a href="{{ url_for('programme.generate_programme') }}">Générer un nouveau programme</a>
+</div>
+<a href="{{ url_for('index') }}">Retour au menu principal</a>
+{% endblock %}

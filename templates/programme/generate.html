@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Générer un Programme{% endblock %}
+
+{% block content %}
+<h1>Générer un Programme</h1>
+<form method="POST">
+    <label for="datePlanning">Date du planning (YYYY-MM-DD):</label>
+    <input type="text" id="datePlanning" name="datePlanning" placeholder="2025-03-02">
+    <script>
+        flatpickr("#datePlanning", {
+            dateFormat: "Y-m-d"
+        });
+    </script>
+    <button type="submit">Générer</button>
+</form>
+<a href="{{ url_for('index') }}">Retour au menu principal</a>
+{% endblock %}

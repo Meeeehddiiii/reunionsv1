@@ -33,36 +33,3 @@
 <br>
 <a href="{{ url_for('index') }}">Retour au menu principal</a>
 {% endblock %}
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Liste des Membres Accueil</title>
-</head>
-<body>
-    <h1>Liste des Membres Perchiste</h1>
-    <a href="{{ url_for('perchiste.add_perchiste') }}">Ajouter un membre</a>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Actions</th>
-        </tr>
-        {% for membre in membres %}
-        <tr>
-            <td>{{ membre.id }}</td>
-            <td>{{ membre.nom }}</td>
-            <td>{{ membre.prenom }}</td>
-            <td>
-                <a href="{{ url_for('perchiste.edit_perchiste', id=membre.id) }}">Modifier</a>
-                <form action="{{ url_for('perchiste.delete_perchiste', id=membre.id) }}" method="post" style="display:inline;">
-                    <button type="submit">Supprimer</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-    <br>
-    <a href="{{ url_for('index') }}">Retour au menu principal</a>
-</body>
-</html>

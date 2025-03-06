@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Modifier un Programme{% endblock %}
+
+{% block content %}
+<h1>Modifier un Programme</h1>
+<form method="POST">
+    <div class="form-group">
+        <label for="datePlanning">Date du planning :</label>
+        <input type="date" id="datePlanning" name="datePlanning" value="{{ programme.datePlanning }}" required>
+    </div>
+    <div class="form-group">
+        <label for="parking">Parking :</label>
+        <input type="text" id="parking" name="parking" value="{{ programme.parking }}">
+    </div>
+    <div class="form-group">
+        <label for="entree">Entrée :</label>
+        <input type="text" id="entree" name="entree" value="{{ programme.entree }}">
+    </div>
+    <div class="form-group">
+        <label for="auditorium">Auditorium :</label>
+        <input type="text" id="auditorium" name="auditorium" value="{{ programme.auditorium }}">
+    </div>
+    <div class="form-group">
+        <label for="estrade">Estrade :</label>
+        <input type="text" id="estrade" name="estrade" value="{{ programme.estrade }}">
+    </div>
+    <div class="form-group">
+        <label for="zoom">Zoom :</label>
+        <input type="text" id="zoom" name="zoom" value="{{ programme.zoom }}">
+    </div>
+    <div class="form-group">
+        <label for="sono">Sono :</label>
+        <input type="text" id="sono" name="sono" value="{{ programme.sono }}">
+    </div>
+    <div class="form-group">
+        <label for="perchiste1">Perchiste 1 :</label>
+        <input type="text" id="perchiste1" name="perchiste1" value="{{ programme.perchiste1 }}">
+    </div>
+    <div class="form-group">
+        <label for="perchiste2">Perchiste 2 :</label>
+        <input type="text" id="perchiste2" name="perchiste2" value="{{ programme.perchiste2 }}">
+    </div>
+    <div class="form-group">
+        <label for="perchiste3">Perchiste 3 :</label>
+        <input type="text" id="perchiste3" name="perchiste3" value="{{ programme.perchiste3 }}">
+    </div>
+    <div class="form-group">
+        <label for="perchiste4">Perchiste 4 :</label>
+        <input type="text" id="perchiste4" name="perchiste4" value="{{ programme.perchiste4 }}">
+    </div>
+    <button type="submit" class="btn-edit">Enregistrer</button>
+    <a href="{{ url_for('programme.list_programme') }}" class="btn-delete">Annuler</a>
+</form>
+<a href="{{ url_for('index') }}">Retour au menu principal</a>
+{% endblock %}

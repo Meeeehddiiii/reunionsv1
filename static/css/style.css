@@ -17,6 +17,22 @@ h1 {
     padding: 20px;
 }
 
+/* Container spécifique pour la gestion du programme */
+.programme-container {
+    width: 100%;
+    max-width: 1200px;      /* largeur maximale, à ajuster selon vos besoins */
+    margin-left: 0;
+    margin: 20px 0;         /* centre le container horizontalement */
+    padding: 20px;          /* espace intérieur */
+    background-color: #f9f9f9;  /* couleur de fond claire */
+    border: 1px solid #ddd; /* bordure discrète */
+    border-radius: 5px;     /* coins arrondis */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* légère ombre pour le relief */
+    text-align: left;
+}
+
+
+
 /* Style de base pour les tables */
 table {
     width: 100%;
