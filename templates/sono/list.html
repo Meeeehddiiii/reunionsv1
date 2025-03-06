@@ -5,31 +5,33 @@
 {% block title %}Sono{% endblock %}
 
 {% block content %}
-<h1>Liste des Membres Sono</h1>
-<a href="{{ url_for('sono.add_sono') }}">Ajouter un membre</a>
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Actions</th>
-    </tr>
-    {% for membre in membres %}
-    <tr>
-        <td>{{ membre.id }}</td>
-        <td>{{ membre.nom }}</td>
-        <td>{{ membre.prenom }}</td>
-        <td>
-            <form action="{{ url_for('sono.edit_sono', id=membre.id) }}" method="get" style="display:inline;">
-                <button type="submit" class="btn-edit">Modifier</button>
-            </form>
-            <form action="{{ url_for('sono.delete_sono', id=membre.id) }}" method="post" style="display:inline;">
-                <button type="submit" class="btn-delete">Supprimer</button>
-            </form>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-<br>
-<a href="{{ url_for('index') }}">Retour au menu principal</a>
+<div class="container">
+    <h1>Liste des Membres Sono</h1>
+    <a href="{{ url_for('sono.add_sono') }}">Ajouter un membre</a>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Actions</th>
+        </tr>
+        {% for membre in membres %}
+        <tr>
+            <td>{{ membre.id }}</td>
+            <td>{{ membre.nom }}</td>
+            <td>{{ membre.prenom }}</td>
+            <td>
+                <form action="{{ url_for('sono.edit_sono', id=membre.id) }}" method="get" style="display:inline;">
+                    <button type="submit" class="btn-edit">Modifier</button>
+                </form>
+                <form action="{{ url_for('sono.delete_sono', id=membre.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn-delete">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="{{ url_for('index') }}">Retour au menu principal</a>
+</div>
 {% endblock %}
