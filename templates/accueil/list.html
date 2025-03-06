@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!-- templates/index.html -->
+{% extends "base.html" %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+<h1>Liste des Membres Accueil</h1>
+<a href="{{ url_for('accueil.add_accueil') }}">Ajouter un membre</a>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Actions</th>
+    </tr>
+    {% for membre in membres %}
+    <tr>
+        <td>{{ membre.id }}</td>
+        <td>{{ membre.nom }}</td>
+        <td>{{ membre.prenom }}</td>
+        <td>
+            <form action="{{ url_for('accueil.edit_accueil', id=membre.id) }}" method="get" style="display:inline;">
+                <button type="submit">Modifier</button>
+            </form>
+            <form action="{{ url_for('accueil.delete_accueil', id=membre.id) }}" method="post" style="display:inline;">
+                <button type="submit">Supprimer</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<a href="{{ url_for('index') }}">Retour au menu principal</a>
+{% endblock %}

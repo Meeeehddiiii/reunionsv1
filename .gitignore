@@ -1,0 +1,14 @@
+# Environnements virtuels
+env/
+venv/
+
+# Fichiers Python compilés
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Autres dossiers générés (optionnel)
+build/
+dist/
+*.egg-info/

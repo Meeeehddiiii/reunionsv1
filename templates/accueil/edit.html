@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<!-- templates/index.html -->
+{% extends "base.html" %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+<h1>Modifier un Membre Accueil</h1>
+<form method="POST">
+    Nom : <input type="text" name="nom" value="{{ membre.nom }}" required><br>
+    Prénom : <input type="text" name="prenom" value="{{ membre.prenom }}" required><br>
+    <button type="submit">Modifier</button>
+</form>
+<a href="{{ url_for('accueil.list_accueil') }}">Retour à la liste</a>
+{% endblock %}

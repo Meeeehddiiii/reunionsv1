@@ -1,0 +1,152 @@
+/* static/css/style.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 10;
+    padding: 10;
+}
+
+h1 {
+    color: #2330be;
+}
+
+.container {
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+}
+
+/* Style de base pour les tables */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Fusionne les bordures pour un rendu plus net */
+    margin-bottom: 20px;
+}
+
+/* Style pour les en-têtes de colonne */
+table th {
+    background-color: #4CAF50; /* Couleur de fond */
+    color: #fff;               /* Couleur du texte */
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Style pour les cellules de la table */
+table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Style pour alterner les couleurs des lignes (zebra stripes) */
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* Effet au survol de la souris sur une ligne */
+table tr:hover {
+    background-color: #e0e0e0;
+}
+
+/* Style global du formulaire */
+form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Style pour les groupes de champs */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Style pour les labels */
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Style pour les champs de saisie */
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form textarea,
+form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+/* Optionnel : style pour un champ en erreur */
+input.error, textarea.error, select.error {
+    border-color: #e74c3c;
+}
+
+/* Style pour les boutons */
+form button,
+form input[type="submit"] {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+/* Effet hover sur les boutons */
+form button:hover,
+form input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Optionnel : style pour les messages d'erreur */
+.form-error {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Supprime les puces et les marges/paddings par défaut */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Style de base pour chaque élément de liste */
+ul li {
+    padding: 10px 15px;
+    margin: 5px 0;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+/* Effet au survol sur un élément de liste */
+ul li:hover {
+    background-color: #e0e0e0;
+}
+
+/* Si vos éléments contiennent des liens, vous pouvez les styliser ainsi */
+ul li a {
+    display: block;
+    text-decoration: none;
+    color: #333;
+}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Réunions{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        {% block content %}
+        <h1>Menu Principal</h1>
+        <ul>
+            <li><a href="{{ url_for('accueil.list_accueil') }}">Gestion Accueil</a></li>
+            <li><a href="{{ url_for('estrade.list_estrade') }}">Gestion Estrade</a></li> 
+            <li><a href="{{ url_for('sono.list_sono') }}">Gestion Sono</a></li>
+            <li><a href="{{ url_for('perchiste.list_perchiste') }}">Gestion Perchiste</a></li>
+        </ul>
+        {% endblock %}
+    </div>
+</body>
+</html>
