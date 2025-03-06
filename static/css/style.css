@@ -8,6 +8,7 @@ body {
 
 h1 {
     color: #2330be;
+    text-align: center;
 }
 
 .container {
@@ -120,6 +121,38 @@ form input[type="submit"]:hover {
     color: #e74c3c;
     font-size: 14px;
     margin-top: 5px;
+}
+
+/* Bouton pour modifier (vert) */
+.btn-edit {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-edit:hover {
+    background-color: darkgreen;
+}
+
+/* Bouton pour supprimer (rouge) */
+.btn-delete {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-delete:hover {
+    background-color: darkred;
 }
 
 /* Supprime les puces et les marges/paddings par défaut */
