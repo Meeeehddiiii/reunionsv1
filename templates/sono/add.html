@@ -8,8 +8,12 @@
 <div class="container">
     <h1>Ajouter un Membre Sono</h1>
         <form method="POST">
-            Nom : <input type="text" name="nom" required><br>
-            Prénom : <input type="text" name="prenom" required><br>
+            <div class="form-group">
+                Nom : <input type="text" name="nom" required><br>
+            </div>
+            <div class="form-group">
+                Prénom : <input type="text" name="prenom" required><br>
+            </div>
             <button type="submit">Ajouter</button>
         </form>
         <a href="{{ url_for('sono.list_sono') }}">Retour à la liste</a>

@@ -12,7 +12,7 @@ h1 {
 }
 
 .container {
-    width: 50%;
+    width: 40%;
     margin: auto;
     padding: 20px;
 }
@@ -43,14 +43,14 @@ table {
 table th {
     background-color: #4CAF50; /* Couleur de fond */
     color: #fff;               /* Couleur du texte */
-    padding: 12px 15px;
+    padding: 2px 5px;
     border: 1px solid #ddd;
     text-align: left;
 }
 
 /* Style pour les cellules de la table */
 table td {
-    padding: 12px 15px;
+    padding: 2px 2px;
     border: 1px solid #ddd;
     text-align: left;
 }
@@ -138,16 +138,22 @@ form input[type="submit"]:hover {
     margin-top: 5px;
 }
 
+.bouton-container {
+    display: table;
+    background-color: #fff;
+    padding: 0;
+    margin: 0;
+}
+
 /* Bouton pour modifier (vert) */
 .btn-edit {
     background-color: green;
     color: white;
-    border: none;
     padding: 10px 15px;
     border-radius: 5px;
+    display: inline-block;
     text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    margin-right: 5px;
 }
 
 .btn-edit:hover {
@@ -158,12 +164,10 @@ form input[type="submit"]:hover {
 .btn-delete {
     background-color: red;
     color: white;
-    border: none;
     padding: 10px 15px;
     border-radius: 5px;
+    display: inline-block;
     text-decoration: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
 .btn-delete:hover {
@@ -197,4 +201,17 @@ ul li a {
     display: block;
     text-decoration: none;
     color: #333;
+}
+
+.mon-lien {
+    display: inline-block; /* ou block */
+    margin-bottom: 20px; /* ou margin-left, margin-right, etc. */
+}
+
+td form {
+    display: inline-block;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
 }

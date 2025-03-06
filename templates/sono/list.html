@@ -7,7 +7,7 @@
 {% block content %}
 <div class="container">
     <h1>Liste des Membres Sono</h1>
-    <a href="{{ url_for('sono.add_sono') }}">Ajouter un membre</a>
+    <a href="{{ url_for('sono.add_sono') }}" class="mon-lien">Ajouter un membre</a>
     <table border="1">
         <tr>
             <th>ID</th>
@@ -31,7 +31,6 @@
         </tr>
         {% endfor %}
     </table>
-    <br>
     <a href="{{ url_for('index') }}">Retour au menu principal</a>
 </div>
 {% endblock %}

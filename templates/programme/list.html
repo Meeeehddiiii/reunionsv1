@@ -11,12 +11,13 @@
           <tr>
             <th>ID</th>
             <th>Date</th>
+            <th>Estrade</th>
+            <th>Zoom</th>
+            <th>Audio</th>
+            <th>Vidéo</th>
             <th>Parking</th>
             <th>Entrée</th>
             <th>Auditorium</th>
-            <th>Estrade</th>
-            <th>Zoom</th>
-            <th>Sono</th>
             <th>Perchiste1</th>
             <th>Perchiste2</th>
             <th>Perchiste3</th>
@@ -29,20 +30,25 @@
           <tr>
             <td>{{ programme.id }}</td>
             <td>{{ programme.datePlanning }}</td>
+            <td>{{ programme.estrade }}</td>
+            <td>{{ programme.zoom }}</td>
+            <td>{{ programme.audio }}</td>
+            <td>{{ programme.video }}</td>
             <td>{{ programme.parking }}</td>
             <td>{{ programme.entree }}</td>
             <td>{{ programme.auditorium }}</td>
-            <td>{{ programme.estrade }}</td>
-            <td>{{ programme.zoom }}</td>
-            <td>{{ programme.sono }}</td>
             <td>{{ programme.perchiste1 }}</td>
             <td>{{ programme.perchiste2 }}</td>
             <td>{{ programme.perchiste3 }}</td>
             <td>{{ programme.perchiste4 }}</td>
             <td>
-              <a href="{{ url_for('programme.edit_programme', id=programme.id) }}">Modifier</a>
-              <form action="{{ url_for('programme.delete_programme', id=programme.id) }}" method="post" style="display:inline;">
-                <button type="submit">Supprimer</button>
+              <form action="{{ url_for('programme.edit_programme', id=programme.id) }}" method="get" 
+                style="display:inline-block; background: none; border: none; padding: 0; margin: 0;">
+                <button type="submit" class="btn-edit">Modifier</button>
+              </form>
+              <form action="{{ url_for('programme.delete_programme', id=programme.id) }}" method="post" 
+                style="display:inline-block; background: none; border: none; padding: 0; margin: 0;">
+                <button type="submit" class="btn-delete">Supprimer</button>
               </form>
             </td>
           </tr>
@@ -53,6 +59,7 @@
       <p>Aucun programme trouvé.</p>
     {% endif %}
     <a href="{{ url_for('programme.generate_programme') }}">Générer un nouveau programme</a>
+
 </div>
 <a href="{{ url_for('index') }}">Retour au menu principal</a>
 {% endblock %}

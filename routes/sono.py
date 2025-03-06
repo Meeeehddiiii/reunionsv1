@@ -14,7 +14,6 @@ def list_sono():
 # Ajouter un membre à la table Sono
 @sono_bp.route('sono/add', methods=['GET', 'POST'])
 def add_sono():
-    flash("JE SUIS ICI")
     if request.method == 'POST':
         nom = request.form['nom']
         prenom = request.form['prenom']

@@ -40,7 +40,7 @@ def generate_programme():
 
         # Récupérer et trier les membres pour avoir un ordre fixe
         accueil_members = sorted(Accueil.query.all(), key=lambda m: (m.nom, m.prenom))
-        estrade_members = sorted(Estrade.query.all(), key=lambda m: (m.nom, m.prenom))
+        # estrade_members = sorted(Estrade.query.all(), key=lambda m: (m.nom, m.prenom))
         sono_members = sorted(Sono.query.all(), key=lambda m: (m.nom, m.prenom))
         perchiste_members = sorted(Perchiste.query.all(), key=lambda m: (m.nom, m.prenom))
 
@@ -81,21 +81,20 @@ def generate_programme():
         
         # Calcul des offsets pour chaque catégorie
         offset_accueil = total_prog % len(accueil_members) if accueil_members else 0
-        offset_estrade = total_prog % len(estrade_members) if estrade_members else 0
+        # offset_estrade = total_prog % len(estrade_members) if estrade_members else 0
         offset_sono = total_prog % len(sono_members) if sono_members else 0
         offset_perchiste = total_prog % len(perchiste_members) if perchiste_members else 0
+
+        # Pour la catégorie Sono, on affecte 4 rôles (zoom, audio, video et estrade)
+        zoom    = select_member_category(sono_members, used, offset_sono) if sono_members else None
+        audio   = select_member_category(sono_members, used, offset_sono) if sono_members else None
+        video   = select_member_category(sono_members, used, offset_sono) if sono_members else None
+        estrade = select_member_category(sono_members, used, offset_sono) if sono_members else None
 
         # Pour la catégorie Accueil, on affecte 3 rôles (parking, entrée, auditorium)
         parking    = select_member_category(accueil_members, used, offset_accueil)
         entree     = select_member_category(accueil_members, used, offset_accueil)
         auditorium = select_member_category(accueil_members, used, offset_accueil)
-
-        # Pour la catégorie Sono, on affecte 2 rôles (zoom et sono)
-        zoom = select_member_category(sono_members, used, offset_sono) if sono_members else None
-        sono = select_member_category(sono_members, used, offset_sono) if sono_members else None
-
-        # Pour Estrade (1 rôle)
-        estrade = select_member_category(estrade_members, used, offset_estrade) if estrade_members else None
 
         # Calcul de l'offset pour Perchiste
         offset_perchiste = total_prog % len(perchiste_members) if perchiste_members else 0
@@ -111,12 +110,13 @@ def generate_programme():
 
         new_programme = Programme(
             datePlanning = planning_date,
+            zoom = zoom,
+            audio = audio,
+            video = video,
+            estrade = estrade,
             parking = parking,
             entree = entree,
             auditorium = auditorium,
-            estrade = estrade,
-            zoom = zoom,
-            sono = sono,
             perchiste1 = perchiste1,
             perchiste2 = perchiste2,
             perchiste3 = perchiste3,
@@ -143,12 +143,13 @@ def edit_programme(id):
     if request.method == 'POST':
         # Mettez à jour les champs du programme avec les données du formulaire
         programme.datePlanning = request.form.get('datePlanning', programme.datePlanning)
+        programme.zoom = request.form.get('zoom', programme.zoom)
+        programme.audio = request.form.get('audio', programme.audio)
+        programme.video = request.form.get('video', programme.video)
+        programme.estrade = request.form.get('estrade', programme.estrade)
         programme.parking = request.form.get('parking', programme.parking)
         programme.entree = request.form.get('entree', programme.entree)
         programme.auditorium = request.form.get('auditorium', programme.auditorium)
-        programme.estrade = request.form.get('estrade', programme.estrade)
-        programme.zoom = request.form.get('zoom', programme.zoom)
-        programme.sono = request.form.get('sono', programme.sono)
         programme.perchiste1 = request.form.get('perchiste1', programme.perchiste1)
         programme.perchiste2 = request.form.get('perchiste2', programme.perchiste2)
         programme.perchiste3 = request.form.get('perchiste3', programme.perchiste3)
