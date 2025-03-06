@@ -215,3 +215,52 @@ td form {
     padding: 0;
     margin: 0;
 }
+
+/* Conteneur du formulaire pour le programme */
+.programme-form-container {
+    max-width: 600px;             /* Largeur maximale adaptée */
+    margin: 20px auto;            /* Centré horizontalement, avec un margin vertical */
+    padding: 20px;                /* Espacement interne */
+    background-color: #f9f9f9;    /* Fond clair */
+    border: 1px solid #ddd;       /* Bordure discrète */
+    border-radius: 5px;           /* Coins arrondis */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Légère ombre */
+}
+
+/* Styles pour chaque groupe de champs du formulaire */
+.form-group {
+    margin-bottom: 15px;          /* Espace entre les groupes */
+}
+
+.form-group label {
+    display: block;               /* Le label occupe toute la largeur */
+    margin-bottom: 5px;           /* Petit espace sous le label */
+    font-weight: bold;            /* Texte en gras pour le label */
+}
+
+/* Styles pour les inputs et les selects */
+.form-group input,
+.form-group select {
+    width: 100%;                  /* Prend toute la largeur du conteneur */
+    padding: 8px;                 /* Espacement interne */
+    border: 1px solid #ccc;       /* Bordure légère */
+    border-radius: 3px;           /* Coins légèrement arrondis */
+    box-sizing: border-box;       /* Inclut padding et border dans la largeur */
+}
+
+/* Style pour le bouton de soumission */
+.btn-submit {
+    background-color: #4CAF50;    /* Vert */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+/* Effet au survol pour le bouton */
+.btn-submit:hover {
+    background-color: #45a049;
+}

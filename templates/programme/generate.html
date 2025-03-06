@@ -3,16 +3,28 @@
 {% block title %}Générer un Programme{% endblock %}
 
 {% block content %}
-<h1>Générer un Programme</h1>
-<form method="POST">
-    <label for="datePlanning">Date du planning (YYYY-MM-DD):</label>
-    <input type="text" id="datePlanning" name="datePlanning" placeholder="2025-03-02">
-    <script>
-        flatpickr("#datePlanning", {
-            dateFormat: "Y-m-d"
-        });
-    </script>
-    <button type="submit">Générer</button>
-</form>
-<a href="{{ url_for('index') }}">Retour au menu principal</a>
+<div class="programme-form-container">
+    <h1>Générer un Programme</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="datePlanning">Date du planning (YYYY-MM-DD):</label>
+            <input type="date" id="datePlanning" name="datePlanning" required>
+        </div>
+        <div class="form-group">
+            <label for="nbPerchistes">Nombre de perchistes:</label>
+            <select name="nbPerchistes" id="nbPerchistes">
+                <option value="2">2</option>
+                <option value="4" selected>4</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="indisponibles">
+                Frères indisponibles (séparés par des virgules, format "NOM Prenom"):
+            </label>
+            <input type="text" id="indisponibles" name="indisponibles" placeholder="Smith John, Doe Jane">
+        </div>
+        <button type="submit" class="btn-submit">Générer</button>
+    </form>
+    <a href="{{ url_for('index') }}">Retour au menu principal</a>
+</div>
 {% endblock %}

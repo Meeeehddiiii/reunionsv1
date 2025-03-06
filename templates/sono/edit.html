@@ -17,7 +17,9 @@
             <input type="text" name="prenom" id="prenom" value="{{ membre.prenom }}" required>
         </div>
         <button type="submit" class="btn-edit">Modifier</button>
+        <br>
+        <br>
+        <a href="{{ url_for('sono.list_sono') }}" class="mon-lien">Retour à la liste</a>
     </form>
-    <a href="{{ url_for('sono.list_sono') }}">Retour à la liste</a>
 </div>
 {% endblock %}
