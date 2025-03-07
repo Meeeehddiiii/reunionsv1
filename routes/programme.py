@@ -36,6 +36,7 @@ def get_next_candidate(total_candidates=10):
 @programme_bp.route('/generate', methods=['GET', 'POST'])
 def generate_programme():
     if request.method == 'POST':
+        # Récupération et conversion de la date
         date_planning_str = request.form.get('datePlanning')
         try:
             planning_date = datetime.strptime(date_planning_str, '%Y-%m-%d').date() if date_planning_str else date.today()
@@ -43,7 +44,7 @@ def generate_programme():
             flash("La date n'est pas au format correct (YYYY-MM-DD).")
             return redirect(url_for('programme.generate_programme'))
         
-       # Récupération du nombre de perchistes souhaité (2 ou 4)
+        # Récupération du nombre de perchistes souhaité (2 ou 4)
         nb_perchistes_str = request.form.get('nbPerchistes')
         try:
             nb_perchistes = int(nb_perchistes_str) if nb_perchistes_str else 4
@@ -52,99 +53,81 @@ def generate_programme():
         except ValueError:
             nb_perchistes = 4
 
-        # Récupération des couples indisponibles fournis par l'utilisateur
+        # Récupération des couples indisponibles et normalisation
         indisponibles_str = request.form.get('indisponibles', '')
+        # On normalise ici en minuscules et en enlevant les espaces superflus
         indisponibles = {couple.strip().lower() for couple in indisponibles_str.split(',') if couple.strip()}
-        # On suppose que l'utilisateur saisit une liste séparée par des virgules, ex: "Smith John, Doe Jane"
-        indisponibles = {couple.strip() for couple in indisponibles_str.split(',') if couple.strip()}
+        logger.debug("Indisponibles normalisés : %s", indisponibles)
 
         total_prog = Programme.query.count()  # Nombre de programmes déjà générés
 
-        # Récupérer et trier les membres pour avoir un ordre fixe
+        # Récupérer et trier les membres pour chaque catégorie
         accueil_members = sorted(Accueil.query.all(), key=lambda m: (m.nom, m.prenom))
-        # estrade_members = sorted(Estrade.query.all(), key=lambda m: (m.nom, m.prenom))
         sono_members = sorted(Sono.query.all(), key=lambda m: (m.nom, m.prenom))
         perchiste_members = sorted(Perchiste.query.all(), key=lambda m: (m.nom, m.prenom))
 
-        # Ensemble global pour éviter la duplication d'un même couple dans un programme
-        used = set()
+        # Un ensemble global pour éviter qu'un même couple apparaisse dans le programme entier
+        used_global = set()
 
-        # Fonction de sélection des membres avec décalage et filtrage des indisponibles
-        def select_member_category(members, used, offset, role_index=0, indisponibles=set()):
-            n = len(members)
-            for i in range(n):
-                index = (offset + role_index + i) % n
-                # Normalisation du candidat pour la comparaison
-                normalized_candidate = f"{members[index].nom.strip()} {members[index].prenom.strip()}".lower()
-                logger.debug("Vérification du candidat (normalisé): %s", normalized_candidate)
-                if normalized_candidate not in used and normalized_candidate not in indisponibles:
-                    used.add(normalized_candidate)
-                    candidate = f"{members[index].nom.strip()} {members[index].prenom.strip()}"
-                    logger.debug("Candidat sélectionné: %s", candidate)
-                    return candidate
-            # Si tous les membres sont indisponibles, on retourne celui à l'offset
-            normalized_candidate = f"{members[offset].nom.strip()} {members[offset].prenom.strip()}".lower()
-            used.add(normalized_candidate)
-            candidate = f"{members[offset].nom.strip()} {members[offset].prenom.strip()}"
-            logger.debug("Tous les membres utilisés, on retourne le candidat par défaut: %s", candidate)
-            return candidate
-
-        def select_member_with_role_offset(members, used, offset, role_index):
+        def select_member_category(members, offset, role_index=0, indisponibles=set()):
             """
-            Sélectionne un membre unique dans une liste en démarrant à l'offset + role_index.
-            Cela permet d'avoir un décalage différent pour chaque rôle au sein de la même catégorie.
+            Sélectionne un membre dans 'members' en parcourant la liste circulairement,
+            en s'assurant que le couple "Nom Prenom" (normalisé en minuscules) n'est ni déjà
+            utilisé (dans used_global) ni présent dans l'ensemble 'indisponibles'.
+            
+            Si aucun candidat n'est trouvé, retourne quand même celui à l'offset + role_index.
             """
             n = len(members)
             for i in range(n):
                 index = (offset + role_index + i) % n
-                candidate = f"{members[index].nom} {members[index].prenom}"
-                if candidate not in used:
-                    used.add(candidate)
-                    return candidate
-            # Si tous les membres sont déjà utilisés, retourne celui à l'offset (même si cela génère une duplication)
-            candidate = f"{members[offset].nom} {members[offset].prenom}"
-            used.add(candidate)
-            return candidate
-        
-        # Calcul des offsets pour chaque catégorie
+                candidate_raw = f"{members[index].nom.strip()} {members[index].prenom.strip()}"
+                candidate_normalized = candidate_raw.lower()
+                logger.debug("Vérification du candidat (role_index=%d): %s", role_index, candidate_normalized)
+                
+                if candidate_normalized in indisponibles:
+                    logger.debug("Le candidat %s est indisponible.", candidate_normalized)
+                    continue
+                if candidate_normalized in used_global:
+                    logger.debug("Le candidat %s est déjà utilisé.", candidate_normalized)
+                    continue
+                used_global.add(candidate_normalized)
+                logger.debug("Candidat sélectionné pour role_index %d: %s", role_index, candidate_raw)
+                return candidate_raw
+            # Aucun candidat n'est trouvé, on retourne le candidat à l'offset + role_index (même si déjà utilisé)
+            logger.debug("Aucun candidat disponible pour role_index %d.", role_index)
+            candidate_raw = f"{members[(offset + role_index) % n].nom.strip()} {members[(offset + role_index) % n].prenom.strip()}"
+            logger.debug("Retour fallback pour role_index %d: %s", role_index, candidate_raw)
+            return candidate_raw
+
+        # Calcul des offsets pour chaque catégorie (basé sur le nombre de programmes déjà générés)
         offset_accueil = total_prog % len(accueil_members) if accueil_members else 0
-        # offset_estrade = total_prog % len(estrade_members) if estrade_members else 0
         offset_sono = total_prog % len(sono_members) if sono_members else 0
         offset_perchiste = total_prog % len(perchiste_members) if perchiste_members else 0
 
-        # Pour la catégorie Sono, on affecte 4 rôles (zoom, audio, video et estrade)
-        zoom    = select_member_category(sono_members, used, offset_sono) if sono_members else None
-        audio   = select_member_category(sono_members, used, offset_sono) if sono_members else None
-        video   = select_member_category(sono_members, used, offset_sono) if sono_members else None
-        estrade = select_member_category(sono_members, used, offset_sono) if sono_members else None
+        # Pour la catégorie Sono : on génère 4 rôles (exemple : zoom, audio, video, estrade)
+        zoom = select_member_category(sono_members, offset_sono, 0, indisponibles)
+        audio = select_member_category(sono_members, offset_sono, 1, indisponibles)
+        video = select_member_category(sono_members, offset_sono, 2, indisponibles)
+        estrade = select_member_category(sono_members, offset_sono, 3, indisponibles)
 
-        # Pour la catégorie Accueil, on affecte 3 rôles (parking, entrée, auditorium)
-        parking    = select_member_category(accueil_members, used, offset_accueil)
-        entree     = select_member_category(accueil_members, used, offset_accueil)
-        auditorium = select_member_category(accueil_members, used, offset_accueil)
+        # Pour la catégorie Accueil : on génère 3 rôles (exemple : parking, entree, auditorium)
+        parking = select_member_category(accueil_members, offset_accueil, 0, indisponibles)
+        entree = select_member_category(accueil_members, offset_accueil, 1, indisponibles)
+        auditorium = select_member_category(accueil_members, offset_accueil, 2, indisponibles)
 
-        # Calcul de l'offset pour Perchiste
-        offset_perchiste = total_prog % len(perchiste_members) if perchiste_members else 0
-
-        # Sélection pour les 4 rôles perchiste en utilisant un décalage différent pour chacun
-       # perchiste1 = select_member_with_role_offset(perchiste_members, used, offset_perchiste, 0)
-      #  perchiste2 = select_member_with_role_offset(perchiste_members, used, offset_perchiste, 1)
-      #  perchiste3 = select_member_with_role_offset(perchiste_members, used, offset_perchiste, 2)
-      #  perchiste4 = select_member_with_role_offset(perchiste_members, used, offset_perchiste, 3)       
-        
-        # Pour les perchistes : générer nb_perchistes rôles
+        # Pour la catégorie Perchiste : générer nb_perchistes rôles
         perchiste_list = []
         for role_index in range(nb_perchistes):
-            perchiste_list.append(select_member_category(perchiste_members, used, offset_perchiste, role_index))
-        # Si 2 perchistes sont demandés, on laisse les deux autres colonnes vides
+            candidate = select_member_category(perchiste_members, offset_perchiste, role_index, indisponibles)
+            perchiste_list.append(candidate)
         if nb_perchistes == 2:
             perchiste1, perchiste2 = perchiste_list
             perchiste3 = perchiste4 = None
-        else:  # sinon 4
+        else:
             perchiste1, perchiste2, perchiste3, perchiste4 = perchiste_list
 
         # Optionnel : obtenir le prochain candidate_id via votre fonction de rotation
-        candidate = get_next_candidate(total_candidates=10)  # Assurez-vous que cette fonction est définie
+        candidate_id = get_next_candidate(total_candidates=10)  # Votre fonction doit être définie ailleurs
 
         new_programme = Programme(
             datePlanning = planning_date,
@@ -159,7 +142,7 @@ def generate_programme():
             perchiste2 = perchiste2,
             perchiste3 = perchiste3,
             perchiste4 = perchiste4,
-            candidate_id = candidate
+            candidate_id = candidate_id
         )
 
         db.session.add(new_programme)
