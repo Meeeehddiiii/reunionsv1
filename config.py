@@ -1,5 +1,5 @@
 # config.py
 class Config:
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://oyokai:123456@localhost/reunions'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://mehdi:12345@db:3306/reunions'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY = '123456'
+    SECRET_KEY = '12345'

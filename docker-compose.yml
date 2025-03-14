@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # Service pour la base de données MariaDB
+  db:
+    image: mariadb:10.5
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: reunions
+      MYSQL_USER: mehdi
+      MYSQL_PASSWORD: 12345
+    volumes:
+      - ./reunions.sql:/docker-entrypoint-initdb.d/reunions.sql
+    ports:
+      - "3306:3306"
+
+  # Service pour l'application Python
+  app:
+    build: .
+    environment:
+      - DB_HOST=db
+      - DB_USER=mehdi
+      - DB_PASSWORD=12345
+      - DB_NAME=reunions
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    links:
+      - db
