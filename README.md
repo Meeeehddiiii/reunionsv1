@@ -4,4 +4,4 @@ git clone https://github.com/Meeeehddiiii/reunionsv1
 
 cd reunionsv1
 
-docker-compose up –-build
+docker-compose up --build
