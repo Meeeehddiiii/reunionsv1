@@ -1,6 +1,6 @@
 Manuel d'utilisation :
 
-git clone https://github.com/Meeeehddiiii/
+git clone https://github.com/Meeeehddiiii/reunionsv1
 
 cd reunionsv1
 
