@@ -10,6 +10,7 @@ services:
       MYSQL_USER: mehdi
       MYSQL_PASSWORD: 12345
     volumes:
+      - mariadb_data:/var/lib/mysql
       - ./reunions.sql:/docker-entrypoint-initdb.d/reunions.sql
     ports:
       - "3306:3306"
@@ -28,3 +29,10 @@ services:
       - db
     links:
       - db
+    volumes:
+      - .:/app
+    mem_limit: 512m
+    cpus: "0.5"
+
+volumes:
+  mariadb_data:
